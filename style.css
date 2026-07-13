@@ -29,8 +29,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+    font-family: 'Outfit', 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
     -webkit-font-smoothing: antialiased;
+    min-width: 0;
 }
 
 body {
@@ -39,6 +40,7 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    width: 100%;
 }
 
 /* Light Mode Cosmic/Gradient Backgrounds */
@@ -253,6 +255,7 @@ body {
     grid-template-columns: 320px 1fr;
     gap: 25px;
     align-items: start;
+    min-width: 0;
 }
 
 /* Sidebar Navigation */
@@ -325,6 +328,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    min-width: 0;
+    max-width: 100%;
 }
 
 /* Detail Card (Intro) */
@@ -593,6 +598,8 @@ body {
     border-radius: 12px;
     padding: 15px;
     border: 1px solid var(--border-glass);
+    min-width: 0;
+    max-width: 100%;
 }
 
 .code-block-title {
@@ -612,6 +619,8 @@ body {
     overflow: hidden;
     position: relative;
     box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.02);
+    min-width: 0;
+    max-width: 100%;
 }
 
 .code-header {
@@ -668,8 +677,11 @@ body {
     margin: 0 !important;
     padding: 15px 20px !important;
     max-height: 400px;
+    max-width: 100%;
+    overflow-x: auto;
     overflow-y: auto;
     background: transparent !important;
+    white-space: pre;
 }
 
 .code-container code {
