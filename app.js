@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(err => {
             console.error("데이터 로드 실패:", err);
-            // Fallback empty data structures if needed
         });
 });
 
@@ -109,7 +108,64 @@ function selectWeek(index) {
             badgeHtml = `<span class="my-badge"><i class="fa-solid fa-user-check"></i> 내가 푼 문제</span>`;
         }
 
-        const escapedCode = escapeHtml(item.code);
+        // Build HTML skeleton for this exercise card
+        let blockHtml = "";
+        item.blocks.forEach((block) => {
+            const escapedCode = escapeHtml(block.code);
+            
+            // Generate output sections
+            let outputHtml = "";
+            let visualizationHtml = "";
+            
+            if (block.output) {
+                // If output contains SVG tags, prepare inline web visualization
+                if (block.output.includes("<svg") || block.output.includes("<?xml")) {
+                    visualizationHtml = `
+                        <div class="web-render-container">
+                            <div class="web-render-header">
+                                <i class="fa-solid fa-bezier-curve"></i> SVG 웹 그래픽 시각화 렌더링
+                            </div>
+                            <div class="web-render-body">
+                                ${block.output}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Regular text output terminal console
+                    const escapedOutput = escapeHtml(block.output);
+                    outputHtml = `
+                        <div class="output-container">
+                            <div class="output-title">
+                                <i class="fa-solid fa-terminal"></i> 실행 결과 (Output)
+                            </div>
+                            <div class="output-terminal">${escapedOutput}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            blockHtml += `
+                <div class="code-block-wrapper">
+                    <div class="code-block-title">
+                        <i class="fa-solid fa-cube"></i> ${block.cell_title}
+                    </div>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <div class="terminal-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="code-lang-label">python</span>
+                            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><code class="language-python">${escapedCode}</code></pre>
+                    </div>
+                    ${outputHtml}
+                    ${visualizationHtml}
+                </div>
+            `;
+        });
 
         card.innerHTML = `
             <div class="ex-header">
@@ -120,18 +176,7 @@ function selectWeek(index) {
                 ${badgeHtml}
             </div>
             <p class="ex-desc">${item.description}</p>
-            <div class="code-container">
-                <div class="code-header">
-                    <div class="terminal-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <span class="code-lang-label">python</span>
-                    <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
-                </div>
-                <pre><code class="language-python">${escapedCode}</code></pre>
-            </div>
+            ${blockHtml}
         `;
         container.appendChild(card);
     });
