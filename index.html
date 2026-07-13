@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3학년 1학기 정보과학 아카이브 | Portfolio</title>
+    
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PrismJS for Syntax Highlighting (One Dark theme style) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cosmic Animated Background -->
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header class="app-header glass-panel">
+            <div class="header-logo">
+                <i class="fa-solid fa-square-terminal logo-icon"></i>
+                <div class="title-group">
+                    <h1>정보과학 <span class="text-gradient">학습 아카이브</span></h1>
+                    <p class="subtitle">3학년 1학기 정보과학 수업 작업물 & 알고리즘 포트폴리오</p>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="meta-pill">
+                    <span class="label">학기</span>
+                    <span class="value">3-1</span>
+                </div>
+                <div class="meta-pill">
+                    <span class="label">수행인</span>
+                    <span class="value user-name-badge">Student</span>
+                </div>
+                <div class="meta-pill glow-pill">
+                    <span class="label">IDE</span>
+                    <span class="value">Antigravity</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Statistics -->
+        <section class="dashboard-stats">
+            <div class="stat-card glass-card">
+                <div class="stat-icon purple-glow"><i class="fa-solid fa-calendar-week"></i></div>
+                <div class="stat-info">
+                    <span class="stat-num" id="total-weeks">8</span>
+                    <span class="stat-label">총 학습 주차</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
+                <div class="stat-icon blue-glow"><i class="fa-solid fa-list-check"></i></div>
+                <div class="stat-info">
+                    <span class="stat-num" id="total-tasks">17</span>
+                    <span class="stat-label">정리된 과제 수</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
+                <div class="stat-icon green-glow"><i class="fa-solid fa-code-commit"></i></div>
+                <div class="stat-info">
+                    <span class="stat-num" id="my-solved-count">17</span>
+                    <span class="stat-label">내가 작성한 코드</span>
+                </div>
+            </div>
+            <div class="stat-card glass-card">
+                <div class="stat-icon red-glow"><i class="fa-brands fa-github"></i></div>
+                <div class="stat-info">
+                    <span class="stat-num"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                    <span class="stat-label">GitHub Pages 배포</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Layout Grid -->
+        <main class="main-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar glass-panel">
+                <h3 class="sidebar-title"><i class="fa-solid fa-bars-staggered"></i> 주제별 탐색</h3>
+                <nav class="nav-menu" id="weeks-menu">
+                    <!-- Dynamic Loading Weeks -->
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <section class="content-area">
+                <!-- Selected Week Introduction Card -->
+                <div class="detail-card glass-card fade-in" id="week-intro-card">
+                    <div class="card-header-main">
+                        <div class="topic-tag" id="current-week-tag">Week 2</div>
+                        <h2 class="section-title" id="current-topic-title">우선순위 큐와 힙</h2>
+                    </div>
+                    
+                    <p class="topic-desc" id="current-topic-desc">
+                        우선순위 큐의 개념을 이해하고, 최소/최대 우선순위 큐를 직접 구현하며 다익스트라 최단 경로 알고리즘에 적용해 봅니다.
+                    </p>
+
+                    <div class="resource-links">
+                        <a href="#" id="pdf-link" class="btn-pill btn-pdf" target="_blank">
+                            <i class="fa-solid fa-file-pdf"></i> 수업 PDF 열기
+                        </a>
+                        <a href="#" id="ipynb-link" class="btn-pill btn-ipynb" target="_blank">
+                            <i class="fa-solid fa-book-open"></i> 원본 노트북(ipynb) 보기
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Reflection Card -->
+                <div class="detail-card glass-card reflection-section fade-in">
+                    <div class="card-header">
+                        <h3 class="sub-section-title"><i class="fa-regular fa-lightbulb"></i> 배운 점 및 개선/성장 스토리</h3>
+                        <span class="save-status" id="save-status-msg">자동 저장 완료</span>
+                    </div>
+                    <div class="reflection-editor">
+                        <textarea id="reflection-text" placeholder="이 주제를 학습하며 느낀 점, 어려웠던 점, 또는 코드 개선 아이디어를 기록해 보세요..."></textarea>
+                        <div class="editor-actions">
+                            <span class="storage-info"><i class="fa-solid fa-circle-info"></i> 수정된 내용은 브라우저 로컬 저장소에 안전하게 유지됩니다.</span>
+                            <button id="save-reflection-btn" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> 저장하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise List -->
+                <div class="exercise-section">
+                    <h3 class="section-heading"><i class="fa-solid fa-laptop-code"></i> 정리된 과제 & 소스 코드</h3>
+                    <div class="exercise-list" id="exercises-container">
+                        <!-- Dynamic Loading Exercises -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer glass-panel">
+            <p>© 2026 Information Science Archive. Built with <i class="fa-solid fa-heart text-danger"></i> & Antigravity IDE.</p>
+            <div class="footer-links">
+                <span class="footer-badge"><i class="fa-solid fa-code-branch"></i> main</span>
+                <span class="footer-badge"><i class="fa-solid fa-circle-check"></i> v1.0.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script Entry Point -->
+    <script src="app.js"></script>
+</body>
+</html>
