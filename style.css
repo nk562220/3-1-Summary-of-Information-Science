@@ -758,6 +758,118 @@ body {
     height: auto;
 }
 
+/* Diagram / structure image embedded from the student's own notebook */
+.item-diagram-link {
+    display: block;
+    align-self: flex-start;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border-glass);
+    box-shadow: 0 4px 16px rgba(31, 38, 135, 0.06);
+    transition: all 0.3s ease;
+    max-width: 520px;
+}
+
+.item-diagram-link:hover {
+    border-color: var(--border-glass-hover);
+    box-shadow: 0 8px 24px rgba(123, 44, 191, 0.12);
+    transform: translateY(-2px);
+}
+
+.item-diagram {
+    display: block;
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    cursor: zoom-in;
+}
+
+/* Live interactive HTML/JS visualization frame */
+.iframe-render-container {
+    background: #0f172a;
+    border: 1px solid rgba(123, 44, 191, 0.25);
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 24px rgba(123, 44, 191, 0.08);
+}
+
+.iframe-render-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #c4b5fd;
+}
+
+.iframe-render-header i.fa-bolt {
+    color: #facc15;
+    margin-right: 4px;
+}
+
+.live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    margin: 0 4px;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+    animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.btn-expand {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-expand:hover {
+    background: rgba(123, 44, 191, 0.3);
+    border-color: rgba(123, 44, 191, 0.5);
+}
+
+.iframe-wrapper {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.live-iframe {
+    width: 100%;
+    height: 560px;
+    border: none;
+    display: block;
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    .live-iframe {
+        height: 460px;
+    }
+}
+
 /* Footer Style */
 .app-footer {
     display: flex;

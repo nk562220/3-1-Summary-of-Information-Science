@@ -7,7 +7,8 @@ const defaultReflections = {
     "6주차": "최소 신장 트리(MST)를 구축하는 크루스칼 알고리즘 및 Union-Find 자료구조를 적용하여 '도시 분할 계획' 문제를 완수했습니다.\n또한 그리디 전략을 요구하는 '큰 수 만들기' 문제를 스택(Stack) 구조로 결합하여 시간 복잡도 O(N)으로 해결했습니다. 매 순간 스택 탑의 값과 현재 값을 비교해 작은 값을 제거함으로써 최종 최적의 조합을 확보하는 그리디 속성(Greedy Choice Property)을 명확히 익혔습니다.",
     "7주차": "이진 탐색(Binary Search) 알고리즘을 반복적(Iterative) 방식과 재귀적(Recursive) 분할 정복 방식으로 두 가지 모두 견고히 구현했습니다.\n더불어 정규표현식 및 파싱 필터를 적용해 수식 문자열(괄호 짝 및 연산자 정합성)의 완전한 올바름을 사전 테스트하는 수식 무결성 검증 로직을 구축하며, 분할 정복을 실제 도메인 논리에 융합하는 설계력을 기를 수 있었습니다.",
     "8주차": "동적 계획법을 활용해 두 문자열 간의 '최장 공통 부분 수열(LCS)'의 길이를 DP 이차원 행렬 형태로 계산하고, 역추적(Backtracking)을 통해 구체적인 LCS 문자열 값을 복원했습니다.\n또한 '최대 서브 배열 합' 문제를 풀기 위해 분할정복과 점화식 메모이제이션(카데인 알고리즘, O(N)) 성능 차이를 정밀 관측하고 대용량 데이터에서 동적 계획법의 강력한 유용성을 실증했습니다.",
-    "9주차": "백트래킹을 다루는 미로 탈출(Maze) 및 N-Queens, 순열 생성에 대한 탐색 코드를 구현했습니다.\n상태 공간 트리(State Space Tree)의 루트에서 유망하지 않은 분기(Non-promising)를 조기에 잘라내는(Pruning) DFS 기반 백트래킹을 실행하고, 미로 및 트리의 탐색 과정을 SVG 벡터 이미지 데이터로 직접 인코딩하여 HTML 상에 렌더링함으로써 시각적으로 흐름을 명쾌하게 추적했습니다."
+    "9주차": "백트래킹을 다루는 미로 탈출(Maze) 및 N-Queens, 순열 생성에 대한 탐색 코드를 구현했습니다.\n상태 공간 트리(State Space Tree)의 루트에서 유망하지 않은 분기(Non-promising)를 조기에 잘라내는(Pruning) DFS 기반 백트래킹을 실행하고, 미로 및 트리의 탐색 과정을 SVG 벡터 이미지 데이터로 직접 인코딩하여 HTML 상에 렌더링함으로써 시각적으로 흐름을 명쾌하게 추적했습니다.",
+    "수행평가": "최신 기술 2가지(MapReduce, Behavior Tree)를 선정해 그 뒤에 숨은 자료구조/알고리즘(Divide & Conquer + Heap, Tree + DFS)을 분석하고 직접 코드로 구현했습니다.\n단순히 Python 콘솔 출력에 그치지 않고, ipywidgets 기반 노트북 UI와 Chart.js를 활용한 독립형 HTML/JS 페이지 두 가지 버전으로 인터랙티브 시각화를 완성해, 알고리즘의 동작을 직접 눈으로 확인하고 조작할 수 있도록 만들었습니다."
 };
 
 let courseData = [];
@@ -84,8 +85,19 @@ function selectWeek(index) {
     const pdfLink = document.getElementById("pdf-link");
     const ipynbLink = document.getElementById("ipynb-link");
 
-    pdfLink.href = encodeURIComponent(weekData.pdf_name);
-    ipynbLink.href = encodeURIComponent(weekData.ipynb_name);
+    if (weekData.pdf_name) {
+        pdfLink.href = encodeURIComponent(weekData.pdf_name);
+        pdfLink.style.display = "";
+    } else {
+        pdfLink.style.display = "none";
+    }
+
+    if (weekData.ipynb_name) {
+        ipynbLink.href = encodeURIComponent(weekData.ipynb_name);
+        ipynbLink.style.display = "";
+    } else {
+        ipynbLink.style.display = "none";
+    }
 
     // Load Reflection from LocalStorage or Fallback to Default Template
     const storageKey = `reflection_${weekData.week}`;
@@ -108,15 +120,43 @@ function selectWeek(index) {
             badgeHtml = `<span class="my-badge"><i class="fa-solid fa-user-check"></i> 내가 푼 문제</span>`;
         }
 
+        // Diagram image (if the student included a structure/flow diagram)
+        let imageHtml = "";
+        if (item.image) {
+            imageHtml = `
+                <a href="${item.image}" target="_blank" class="item-diagram-link" title="원본 이미지 새 창에서 보기">
+                    <img src="${item.image}" alt="${item.title} 구조도" class="item-diagram" loading="lazy">
+                </a>
+            `;
+        }
+
         // Build HTML skeleton for this exercise card
         let blockHtml = "";
-        item.blocks.forEach((block) => {
+        const livePreviews = []; // { slotId, block } queued for mounting after DOM insertion
+        item.blocks.forEach((block, blockIdx) => {
             const escapedCode = escapeHtml(block.code);
-            
+
             // Generate output sections
             let outputHtml = "";
             let visualizationHtml = "";
-            
+            let livePreviewHtml = "";
+
+            if (block.html_preview || block.html_preview_url) {
+                const slotId = `live-slot-${currentWeekIndex}-${exIdx}-${blockIdx}`;
+                livePreviewHtml = `
+                    <div class="iframe-render-container">
+                        <div class="iframe-render-header">
+                            <span><i class="fa-solid fa-bolt"></i> 인터랙티브 HTML 시각화 <span class="live-dot"></span> LIVE</span>
+                            <button class="btn-expand" data-slot="${slotId}" type="button">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i> 새 창에서 크게 보기
+                            </button>
+                        </div>
+                        <div class="iframe-wrapper" id="${slotId}"></div>
+                    </div>
+                `;
+                livePreviews.push({ slotId, block });
+            }
+
             if (block.output) {
                 // If output contains SVG tags, prepare inline web visualization
                 if (block.output.includes("<svg") || block.output.includes("<?xml")) {
@@ -163,6 +203,7 @@ function selectWeek(index) {
                     </div>
                     ${outputHtml}
                     ${visualizationHtml}
+                    ${livePreviewHtml}
                 </div>
             `;
         });
@@ -176,9 +217,42 @@ function selectWeek(index) {
                 ${badgeHtml}
             </div>
             <p class="ex-desc">${item.description}</p>
+            ${imageHtml}
             ${blockHtml}
         `;
         container.appendChild(card);
+
+        // Mount live HTML previews as real iframes (srcdoc/src set as IDL
+        // properties, not string-concatenated, so quotes/backticks inside
+        // the student's embedded HTML never need escaping).
+        livePreviews.forEach(({ slotId, block }) => {
+            const wrapper = card.querySelector(`#${slotId}`);
+            if (!wrapper) return;
+
+            const iframe = document.createElement("iframe");
+            iframe.className = "live-iframe";
+            iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-modals allow-popups");
+            iframe.loading = "lazy";
+
+            if (block.html_preview) {
+                iframe.srcdoc = block.html_preview;
+            } else if (block.html_preview_url) {
+                iframe.src = block.html_preview_url;
+            }
+            wrapper.appendChild(iframe);
+
+            const expandBtn = card.querySelector(`.btn-expand[data-slot="${slotId}"]`);
+            if (expandBtn) {
+                expandBtn.addEventListener("click", () => {
+                    if (block.html_preview) {
+                        const blob = new Blob([block.html_preview], { type: "text/html" });
+                        window.open(URL.createObjectURL(blob), "_blank");
+                    } else if (block.html_preview_url) {
+                        window.open(block.html_preview_url, "_blank");
+                    }
+                });
+            }
+        });
     });
 
     // Trigger Prism Highlight
