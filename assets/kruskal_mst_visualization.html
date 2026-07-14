@@ -1,0 +1,276 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #FFFFFF;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+<div style="
+position:absolute;
+top:20px;
+left:20px;
+z-index:9999;
+
+background:white;
+
+padding:24px;
+
+border-radius:24px;
+
+border:3px solid #8CC0EB;
+
+width:340px;
+
+font-family:Arial;
+
+box-shadow:0 10px 30px rgba(140,192,235,0.25);
+">
+
+<h1 style="
+margin-top:0;
+color:#8CC0EB;
+font-size:30px;
+">
+Kruskal MST
+</h1>
+
+<p style="
+color:#BFDDF0;
+font-size:16px;
+font-weight:bold;
+">
+Minimum Spanning Tree Visualization
+</p>
+
+<hr style="
+border:none;
+border-top:2px solid #FFEBCD;
+margin:20px 0;
+">
+
+<h3 style="color:#8CC0EB;">
+선택된 간선
+</h3>
+
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (3, 4) → 비용 1
+    </div>
+    
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (1, 3) → 비용 2
+    </div>
+    
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (5, 6) → 비용 2
+    </div>
+    
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (1, 2) → 비용 3
+    </div>
+    
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (4, 6) → 비용 3
+    </div>
+    
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (6, 7) → 비용 4
+    </div>
+    
+    <div style="
+    background:#FFF9D2;
+    padding:10px;
+    border-radius:12px;
+    margin-bottom:10px;
+    color:#000000;
+    font-weight:bold;
+    ">
+    (6, 8) → 비용 5
+    </div>
+    
+
+<hr style="
+border:none;
+border-top:2px solid #FFEBCD;
+margin:20px 0;
+">
+
+<h2 style="
+color:#8CC0EB;
+margin-bottom:0;
+">
+총 비용
+</h2>
+
+<p style="
+font-size:32px;
+font-weight:bold;
+color:#000000;
+margin-top:8px;
+">
+20
+</p>
+
+</div>
+
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 1, "label": "v1", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 2, "label": "v2", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 3, "label": "v3", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 4, "label": "v4", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 5, "label": "v5", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 6, "label": "v6", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 7, "label": "v7", "shape": "dot", "size": 28}, {"borderWidth": 4, "color": {"background": "#8CC0EB", "border": "#BFDDF0", "highlight": {"background": "#FFEBCD", "border": "#8CC0EB"}}, "font": {"color": "#000000"}, "id": 8, "label": "v8", "shape": "dot", "size": 28}]);
+                  edges = new vis.DataSet([{"color": "#8CC0EB", "from": 3, "label": "1", "title": "MST \uac04\uc120", "to": 4, "width": 5}, {"color": "#8CC0EB", "from": 1, "label": "2", "title": "MST \uac04\uc120", "to": 3, "width": 5}, {"color": "#8CC0EB", "from": 5, "label": "2", "title": "MST \uac04\uc120", "to": 6, "width": 5}, {"color": "#8CC0EB", "from": 1, "label": "3", "title": "MST \uac04\uc120", "to": 2, "width": 5}, {"color": "#8CC0EB", "from": 4, "label": "3", "title": "MST \uac04\uc120", "to": 6, "width": 5}, {"color": "#D9D9D9", "dashes": true, "from": 2, "label": "4", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 3, "width": 2}, {"color": "#8CC0EB", "from": 6, "label": "4", "title": "MST \uac04\uc120", "to": 7, "width": 5}, {"color": "#D9D9D9", "dashes": true, "from": 1, "label": "5", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 4, "width": 2}, {"color": "#8CC0EB", "from": 6, "label": "5", "title": "MST \uac04\uc120", "to": 8, "width": 5}, {"color": "#D9D9D9", "dashes": true, "from": 2, "label": "6", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 5, "width": 2}, {"color": "#D9D9D9", "dashes": true, "from": 7, "label": "6", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 8, "width": 2}, {"color": "#D9D9D9", "dashes": true, "from": 3, "label": "7", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 6, "width": 2}, {"color": "#D9D9D9", "dashes": true, "from": 4, "label": "8", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 7, "width": 2}, {"color": "#D9D9D9", "dashes": true, "from": 5, "label": "9", "title": "\uc120\ud0dd\ub418\uc9c0 \uc54a\uc740 \uac04\uc120", "to": 8, "width": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"shape": "dot", "font": {"size": 20, "face": "arial"}}, "edges": {"smooth": {"type": "dynamic"}, "font": {"size": 16, "strokeWidth": 0, "color": "#000000"}}, "physics": {"barnesHut": {"gravitationalConstant": -2500, "springLength": 170, "springConstant": 0.04}, "minVelocity": 0.75}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
