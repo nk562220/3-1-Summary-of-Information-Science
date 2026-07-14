@@ -16,7 +16,7 @@ let currentWeekIndex = 0;
 
 // Initialize Web App
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("data.json")
+    fetch("data.json?v=" + Date.now(), { cache: "no-store" })
         .then(res => res.json())
         .then(data => {
             courseData = data;
