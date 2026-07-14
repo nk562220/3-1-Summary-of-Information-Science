@@ -1,0 +1,13 @@
+# OS / editor junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+
+# Claude Code local files
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
